@@ -36,6 +36,7 @@
 #include "core/object/class_db.h"
 #include "core/object/script_language.h"
 #include "core/string/string_buffer.h"
+#include "scene/main/node.h"
 
 char32_t VariantParser::Stream::get_char() {
 	// is within buffer?
@@ -2208,6 +2209,15 @@ Error VariantWriter::write(const Variant &p_variant, StoreStringFunc p_store_str
 					p_store_string_func(p_store_string_ud, res_text);
 					break;
 				}
+			}
+
+			// store nodes as their path rather than an orphaned copy
+			Node *maybe_node = Object::cast_to<Node>(obj);
+			if (maybe_node) {
+				String str = String(maybe_node->get_path());
+				str = "NodePath(\"" + str.c_escape() + "\")";
+				p_store_string_func(p_store_string_ud, str);
+				break;
 			}
 
 			//store as generic object
