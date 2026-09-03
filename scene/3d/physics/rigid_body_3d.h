@@ -58,6 +58,7 @@ private:
 	bool can_sleep = true;
 	bool lock_rotation = false;
 	bool freeze = false;
+	bool avoid_edge_collisions = false;
 	FreezeMode freeze_mode = FREEZE_MODE_STATIC;
 
 	real_t mass = 1.0;
@@ -155,6 +156,9 @@ public:
 
 	void set_mass(real_t p_mass);
 	real_t get_mass() const;
+
+	void set_avoid_ghost_collisions(bool p_avoid);
+	bool get_avoid_ghost_collisions() const;
 
 	virtual real_t get_inverse_mass() const override { return 1.0 / mass; }
 

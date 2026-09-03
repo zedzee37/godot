@@ -72,6 +72,19 @@ void JoltContactListener3D::OnContactRemoved(const JPH::SubShapeIDPair &p_shape_
 	}
 }
 
+JPH::ValidateResult OnContactValidate(const JPH::Body &p_jolt_body1, const JPH::Body &p_jolt_body2, JPH::RVec3Arg p_base_offset, const JPH::CollideShapeResult &p_collision_result) {
+	if (p_jolt_body1.IsSensor() || p_jolt_body2.IsSensor()) {
+		return JPH::ValidateResult::AcceptContact;
+	}
+
+	if (!p_jolt_body1.IsDynamic() && !p_jolt_body2.IsDynamic()) {
+		return JPH::ValidateResult::AcceptContact;
+	}
+
+	const JoltBody3D *body1 = reinterpret_cast<JoltBody3D *>(p_jolt_body1.GetUserData());
+	const JoltBody3D *body2 = reinterpret_cast<JoltBody3D *>(p_jolt_body2.GetUserData());
+}
+
 JPH::SoftBodyValidateResult JoltContactListener3D::OnSoftBodyContactValidate(const JPH::Body &p_soft_body, const JPH::Body &p_other_body, JPH::SoftBodyContactSettings &p_settings) {
 	_try_override_collision_response(p_soft_body, p_other_body, p_settings);
 	return JPH::SoftBodyValidateResult::AcceptContact;

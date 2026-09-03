@@ -348,6 +348,14 @@ real_t RigidBody3D::get_mass() const {
 	return mass;
 }
 
+void RigidBody3D::set_avoid_ghost_collisions(bool p_avoid) {
+	avoid_edge_collisions = p_avoid;
+}
+
+bool RigidBody3D::get_avoid_ghost_collisions() const {
+	return avoid_edge_collisions;
+}
+
 void RigidBody3D::set_inertia(const Vector3 &p_inertia) {
 	ERR_FAIL_COND(p_inertia.x < 0);
 	ERR_FAIL_COND(p_inertia.y < 0);
